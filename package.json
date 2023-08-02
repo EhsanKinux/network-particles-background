@@ -2,7 +2,6 @@
   "name": "parcelpractice",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "homepage": "network-particles-background",
   "scripts": {
     "dev": "parcel ./src/index.html",
