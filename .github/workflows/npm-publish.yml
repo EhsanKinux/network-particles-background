@@ -4,8 +4,10 @@
 name: Node.js Package
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+    - main
+    - release/*
 
 jobs:
   build:
@@ -19,15 +21,16 @@ jobs:
       - run: npm run build  # Modify this to the appropriate build script from your package.json
       # The above line should run "parcel build ./src/index.html" based on your package.json
 
-  deploy:
+ publish-npm:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - uses: actions/setup-node@v3
         with:
-          publish_branch: gh-pages  # The branch where the built files will be pushed
-          publish_dir: ./dist  # The directory where Parcel outputs the built files (modify if needed)
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - publish_branch: gh-pages  # The branch where the built files will be pushed
+         - publish_dir: ./dist  # The directory where Parcel outputs the built files (modify if needed)
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
